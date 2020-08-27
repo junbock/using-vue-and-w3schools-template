@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>미션</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        /* The Overlay (background) */
+        .overlay {
+            /* Height & width depends on how you want to reveal the overlay (see JS below) */
+            height: 100%;
+            width: 0;
+            position: fixed;
+            /* Stay in place */
+            z-index: 1;
+            /* Sit on top */
+            left: 0;
+            top: 0;
+            background-color: rgb(0, 0, 0);
+            /* Black fallback color */
+            background-color: rgba(0, 0, 0, 0.9);
+            /* Black w/opacity */
+            overflow-x: hidden;
+            /* Disable horizontal scroll */
+            transition: 0.5s;
+            /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
+        }
+
+        /* Position the content inside the overlay */
+        .overlay-content {
+            position: relative;
+            font-size: 36px;
+            top: 25%;
+            /* 25% from the top */
+            width: 100%;
+            /* 100% width */
+            text-align: center;
+            /* Centered text/links */
+            margin-top: 30px;
+            /* 30px top margin to avoid conflict with the close button on smaller screens */
+        }
+
+        /* Position the content inside the overlay */
+        .overlay-contents {
+            position: relative;
+            transition: 2.0s;
+            font-size: 24px;
+            top: 10%;
+            /* 25% from the top */
+            width: 100%;
+            /* 100% width */
+            text-align: center;
+            /* Centered text/links */
+            margin-top: 0px;
+            /* 30px top margin to avoid conflict with the close button on smaller screens */
+        }
+
+        /* The navigation links inside the overlay */
+        .overlay a {
+            padding: 8px;
+            text-decoration: none;
+            color: #818181;
+            display: block;
+            /* Display block instead of inline */
+            transition: 0.3s;
+            /* Transition effects on hover (color) */
+        }
+
+        /* When you mouse over the navigation links, change their color */
+        .overlay a:hover,
+        .overlay a:focus {
+            color: #f1f1f1;
+        }
+
+        /* Position the close button (top right corner) */
+        .overlay .closebtn {
+            position: absolute;
+            top: 20px;
+            right: 45px;
+            font-size: 60px;
+        }
+
+        /* When the height of the screen is less than 450 pixels, change the font-size of the links and position the close button again, so they don't overlap */
+        @media screen and (max-height: 450px) {
+            .overlay a {
+                font-size: 20px
+            }
+
+            .overlay .closebtn {
+                font-size: 40px;
+                top: 15px;
+                right: 35px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- The overlay -->
+    <div id="myNav" class="overlay">
+
+        <!-- Button to close the overlay navigation -->
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+
+        <!-- Overlay content -->
+        <div class="overlay-content">
+            <a href="#" v-on:mouseover="aboutToggle">Happy</a>
+            <div class="overlay-contents" v-if="ht">
+                <a v-bind:href="v.link" v-for="v in happies" target="_blank">
+                    {{v.happy}}
+                </a>
+            </div>
+            <a href="#" v-on:mouseover="serviceToggle">Sad</a>
+            <div class="overlay-contents" v-if="st">
+                <a v-bind:href="v.link" v-for="v in sads" target="_blank">
+                    {{v.sad}}
+                </a>
+            </div>
+            <a href="#" v-on:mouseover="clientToggle">Angry</a>
+            <div class="overlay-contents" v-if="at">
+                <a v-bind:href="v.link" v-for="v in angries" target="_blank">
+                    {{v.angry}}
+                </a>
+            </div>
+            <a href="pepe/punch.jpg" v-on:mouseover="contactToggle" target="_blank">Punch</a>
+        </div>
+
+    </div>
+
+    <!-- Use any element to open/show the overlay navigation menu -->
+    <button onclick="openNav()">열려라</button><br>
+</body>
+
+<script>
+    /* Open when someone clicks on the span element */
+    let app = new Vue({
+        el: "#myNav",
+        data: {
+            happies: [
+                { happy: "happy1", link: "pepe/happy1.jpg" },
+                { happy: "happy2", link: "pepe/happy2.jpg" }
+            ],
+
+            ht: false,
+
+            sads: [
+                { sad: "sad1", link: "pepe/sad1.jpg" },
+                { sad: "sad2", link: "pepe/sad2.jpg" },
+                { sad: "sad3", link: "pepe/sad3.jpg" }
+            ],
+
+            st: false,
+
+            angries: [
+                { angry: "angry1", link: "pepe/angry1.jpg" },
+                { angry: "angry2", link: "pepe/angry2.jpg" },
+                { angry: "angry3", link: "pepe/angry3.jpg" },
+                { angry: "angry4", link: "pepe/angry4.jpg" }
+            ],
+
+            at: false
+
+        },
+
+        methods: {
+            aboutToggle: function () {
+                this.ht = true;
+                this.st = false;
+                this.at = false;
+            },
+
+            serviceToggle: function () {
+                this.ht = false;
+                this.st = true;
+                this.at = false;
+            },
+
+            clientToggle: function () {
+                this.ht = false;
+                this.st = false;
+                this.at = true;
+            },
+
+            contactToggle: function () {
+                this.ht = false;
+                this.st = false;
+                this.at = false;
+            }
+        }
+    });
+
+    function openNav() {
+        document.getElementById("myNav").style.width = "100%";
+    }
+
+    /* Close when someone clicks on the "x" symbol inside the overlay */
+    function closeNav() {
+        document.getElementById("myNav").style.width = "0%";
+    }
+</script>
+
+</html>
